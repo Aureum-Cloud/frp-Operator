@@ -1,0 +1,26 @@
+# permissions for end users to edit tunnels.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    {{- include "frp-operator.labels" . | nindent 4 }}
+  name: tunnel-editor-role
+rules:
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - tunnels
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - tunnels/status
+  verbs:
+  - get

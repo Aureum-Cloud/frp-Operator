@@ -1,0 +1,5 @@
+## Append samples of your project ##
+resources:
+- frp_v1_exitserver.yaml
+- frp_v1_tunnel.yaml
+# +kubebuilder:scaffold:manifestskustomizesamples

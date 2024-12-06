@@ -1,0 +1,23 @@
+# permissions for end users to view exitservers.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: frp-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: exitserver-viewer-role
+rules:
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - exitservers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - exitservers/status
+  verbs:
+  - get

@@ -1,0 +1,15 @@
+apiVersion: frp.aureum.cloud/v1
+kind: ExitServer
+metadata:
+  labels:
+    app.kubernetes.io/name: frp-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: exit-server-sample
+spec:
+  host: 12.23.34.45
+  port: 7000
+  authentication:
+    token:
+      secretKeyRef:
+        name: exit-server-authentication
+        key: token

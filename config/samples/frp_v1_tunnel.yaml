@@ -1,0 +1,20 @@
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  labels:
+    app.kubernetes.io/name: frp-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: tunnel-sample
+spec:
+  exitServer: exit-server-sample
+  tcp:
+    localPort: 1234
+    remotePort: 1234
+    serviceRef:
+      name: my-svc
+      namespace: my-ns
+  transport:
+    useEncryption: true
+    useCompression: false
+    proxyProtocol: v2
+    bandwidthLimit: 100MB

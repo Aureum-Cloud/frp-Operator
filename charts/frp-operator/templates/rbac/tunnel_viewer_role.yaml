@@ -1,0 +1,22 @@
+# permissions for end users to view tunnels.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    {{- include "frp-operator.labels" . | nindent 4 }}
+  name: tunnel-viewer-role
+rules:
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - tunnels
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - frp.aureum.cloud
+  resources:
+  - tunnels/status
+  verbs:
+  - get

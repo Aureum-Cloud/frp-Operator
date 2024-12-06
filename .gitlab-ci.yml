@@ -1,0 +1,29 @@
+image:
+  name: registry.gitlab.com/gitlab-org/cluster-integration/helm-install-image:helm-3.16.3-kube-1.31.3-alpine-3.21.0
+  entrypoint: ["/bin/sh", "-c"]
+
+include:
+  - template: Jobs/Build.gitlab-ci.yml
+
+stages:
+  - build
+  - package
+
+variables:
+  HELM_REPO_URL: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/stable"
+
+before_script:
+  - apk add --update openssl
+
+package:
+  stage: package
+  only:
+    - tags
+  script:
+    - cd chart
+    - helm lint
+    - helm package . --version ${CI_COMMIT_TAG}
+    - mv *.tgz ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tgz
+    - helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${HELM_REPO_URL}
+    - helm plugin install https://github.com/chartmuseum/helm-push
+    - helm cm-push ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tgz ${CI_PROJECT_NAME}

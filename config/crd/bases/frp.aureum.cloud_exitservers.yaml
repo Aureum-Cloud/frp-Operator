@@ -1,0 +1,78 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.15.0
+  name: exitservers.frp.aureum.cloud
+spec:
+  group: frp.aureum.cloud
+  names:
+    kind: ExitServer
+    listKind: ExitServerList
+    plural: exitservers
+    singular: exitserver
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: ExitServer is the Schema for the exitservers API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ExitServerSpec defines the desired state of ExitServer
+            properties:
+              authentication:
+                properties:
+                  token:
+                    properties:
+                      secretKeyRef:
+                        properties:
+                          key:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - key
+                        - name
+                        type: object
+                    required:
+                    - secretKeyRef
+                    type: object
+                required:
+                - token
+                type: object
+              host:
+                type: string
+              port:
+                type: integer
+            required:
+            - authentication
+            - host
+            - port
+            type: object
+          status:
+            description: ExitServerStatus defines the observed state of ExitServer
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
