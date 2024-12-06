@@ -1,6 +1,6 @@
 apiVersion: v2
 name: frp-operator
-version: 0.0.1
+version: 1.0.0
 description: Helm chart for frp Operator
 type: application
 keywords:
