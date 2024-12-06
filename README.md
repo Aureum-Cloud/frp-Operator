@@ -25,6 +25,24 @@ The frp Kubernetes Operator simplifies the deployment of frp clients and tunnels
 - Compatible with any IngressController
 - Portable IP address for flexibility
 
+## Installation via Helm
+
+To install the frp Operator using Helm, follow these steps:
+
+1. Add the frp Helm repository:
+
+    ```bash
+    helm repo add frp https://frp-operator.aureum.cloud
+    ```
+
+2. Install the frp Operator:
+
+    ```bash
+    helm install my-frp-operator frp/frp-operator --version 1.0.0
+    ```
+
+   This will deploy the frp operator into your Kubernetes cluster.
+
 ## Exit Server Resource
 
 An `ExitServer` resource defines the configuration for a frp exit server. Here's a sample ExitServer manifest:
