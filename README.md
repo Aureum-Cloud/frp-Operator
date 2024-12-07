@@ -25,6 +25,10 @@ The frp Kubernetes Operator simplifies the deployment of frp clients and tunnels
 - Compatible with any IngressController
 - Portable IP address for flexibility
 
+### Built with the Operator SDK
+
+This operator was built using the [Operator SDK](https://sdk.operatorframework.io/docs/building-operators/), a toolkit that simplifies the creation of Kubernetes operators. The SDK streamlines the process of defining, developing, and deploying custom resources.
+
 ## Installation via Helm
 
 To install the frp Operator using Helm, follow these steps:

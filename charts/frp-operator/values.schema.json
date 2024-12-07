@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Helm Values Schema",
+  "type": "object",
+  "properties": {
+    "replicaCount": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of replicas to deploy."
+    },
+    "image": {
+      "type": "object",
+      "properties": {
+        "repository": {
+          "type": "string",
+          "default": "ghcr.io/aureum-cloud/frp-operator",
+          "description": "Container image repository."
+        },
+        "pullPolicy": {
+          "type": "string",
+          "default": "Always",
+          "description": "Image pull policy."
+        },
+        "tag": {
+          "type": "string",
+          "default": "",
+          "description": "Container image tag (empty uses default tag)."
+        }
+      },
+      "required": ["repository", "pullPolicy"]
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "List of image pull secrets."
+    },
+    "nameOverride": {
+      "type": "string",
+      "default": "",
+      "description": "Override the chart name."
+    },
+    "fullnameOverride": {
+      "type": "string",
+      "default": "",
+      "description": "Override the full chart name."
+    },
+    "serviceAccount": {
+      "type": "object",
+      "properties": {
+        "create": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to create a service account."
+        },
+        "name": {
+          "type": "string",
+          "default": "controller-manager",
+          "description": "Name of the service account."
+        },
+        "annotations": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "default": {},
+          "description": "Annotations for the service account."
+        }
+      },
+      "required": ["create", "name"]
+    },
+    "podAnnotations": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "default": {},
+      "description": "Annotations for pods."
+    },
+    "podLabels": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "default": {},
+      "description": "Labels for pods."
+    },
+    "podSecurityContext": {
+      "type": "object",
+      "properties": {
+        "runAsNonRoot": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run pods as non-root user."
+        }
+      },
+      "required": ["runAsNonRoot"]
+    },
+    "securityContext": {
+      "type": "object",
+      "properties": {
+        "allowPrivilegeEscalation": {
+          "type": "boolean",
+          "default": false,
+          "description": "Prevent privilege escalation."
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "drop": {
+              "type": "array",
+              "items": { "type": "string" },
+              "default": ["ALL"],
+              "description": "Capabilities to drop."
+            }
+          },
+          "required": ["drop"]
+        }
+      },
+      "required": ["allowPrivilegeEscalation", "capabilities"]
+    },
+    "service": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "default": "ClusterIP",
+          "description": "Service type."
+        },
+        "port": {
+          "type": "integer",
+          "default": 8443,
+          "description": "Service port."
+        }
+      },
+      "required": ["type", "port"]
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "limits": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "default": "500m",
+              "description": "CPU limit."
+            },
+            "memory": {
+              "type": "string",
+              "default": "128Mi",
+              "description": "Memory limit."
+            }
+          },
+          "required": ["cpu", "memory"]
+        },
+        "requests": {
+          "type": "object",
+          "properties": {
+            "cpu": {
+              "type": "string",
+              "default": "10m",
+              "description": "CPU request."
+            },
+            "memory": {
+              "type": "string",
+              "default": "64Mi",
+              "description": "Memory request."
+            }
+          },
+          "required": ["cpu", "memory"]
+        }
+      },
+      "required": ["limits", "requests"]
+    },
+    "nodeSelector": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "default": {},
+      "description": "Node selector for pods."
+    },
+    "tolerations": {
+      "type": "array",
+      "items": { "type": "object" },
+      "default": [],
+      "description": "Tolerations for pod scheduling."
+    },
+    "affinity": {
+      "type": "object",
+      "default": {},
+      "description": "Affinity rules for pod scheduling."
+    }
+  },
+  "required": ["replicaCount", "image", "serviceAccount", "podSecurityContext", "securityContext", "service", "resources"]
+}
