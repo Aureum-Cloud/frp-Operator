@@ -8,12 +8,13 @@ The **frp Kubernetes Operator** automates the deployment of FRP clients (connect
 
    ```bash
    helm repo add frp https://frp-operator.aureum.cloud
+   helm repo update
    ```
 
 2. **Install the FRP Operator:**
 
    ```bash
-   helm install my-frp-operator frp/frp-operator --version 1.0.0
+   helm install my-frp-operator frp/frp-operator
    ```
 
 ## frp Overview

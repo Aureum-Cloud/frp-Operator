@@ -17,13 +17,13 @@ before_script:
 
 package:
   stage: package
-  only:
-    - tags
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^frp-operator-.*$/'
   script:
-    - cd chart
+    - cd charts/frp-operator
     - helm lint
-    - helm package . --version ${CI_COMMIT_TAG}
-    - mv *.tgz ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tgz
+    - helm package .
+    - mv *.tgz ${CI_COMMIT_TAG}.tgz
     - helm repo add --username gitlab-ci-token --password ${CI_JOB_TOKEN} ${CI_PROJECT_NAME} ${HELM_REPO_URL}
     - helm plugin install https://github.com/chartmuseum/helm-push
-    - helm cm-push ${CI_PROJECT_NAME}-${CI_COMMIT_TAG}.tgz ${CI_PROJECT_NAME}
+    - helm cm-push ${CI_COMMIT_TAG}.tgz ${CI_PROJECT_NAME}
