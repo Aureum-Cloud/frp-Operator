@@ -32,15 +32,15 @@ webServer.port = {{ .AdminAPIPort }}
 
 [[proxies]]
 name = "{{ $tunnel.Name }}"
-{{- if $tunnel.Spec.TCP }}
-type = "tcp"
-{{- if and $tunnel.Spec.TCP.ServiceRef.Name $tunnel.Spec.TCP.ServiceRef.Namespace }}
-localIP = "{{ $tunnel.Spec.TCP.ServiceRef.Name }}.{{ $tunnel.Spec.TCP.ServiceRef.Namespace }}.svc"
+{{- if and $tunnel.Spec.TunnelMapping $tunnel.Spec.TunnelMapping.Protocol }}
+type = "{{ $tunnel.Spec.TunnelMapping.Protocol }}"
+{{- if and $tunnel.Spec.TunnelMapping.ServiceRef.Name $tunnel.Spec.TunnelMapping.ServiceRef.Namespace }}
+localIP = "{{ $tunnel.Spec.TunnelMapping.ServiceRef.Name }}.{{ $tunnel.Spec.TunnelMapping.ServiceRef.Namespace }}.svc"
 {{- else }}
-localIP = "{{ $tunnel.Spec.TCP.ServiceRef.Name }}"
+localIP = "{{ $tunnel.Spec.TunnelMapping.ServiceRef.Name }}"
 {{- end }}
-localPort = {{ $tunnel.Spec.TCP.LocalPort }}
-remotePort = {{ $tunnel.Spec.TCP.RemotePort }}
+localPort = {{ $tunnel.Spec.TunnelMapping.LocalPort }}
+remotePort = {{ $tunnel.Spec.TunnelMapping.RemotePort }}
 {{- with $tunnel.Spec.Transport.UseEncryption }}
 transport.useEncryption = {{ . }}
 {{- end }}

@@ -41,8 +41,13 @@ spec:
               properties:
                 exitServer:
                   type: string
-                tcp:
+                tunnelMapping:
                   properties:
+                    protocol:
+                      enum:
+                        - tcp
+                        - udp
+                      type: string
                     localPort:
                       type: integer
                     remotePort:
@@ -57,6 +62,7 @@ spec:
                         - name
                       type: object
                   required:
+                    - protocol
                     - localPort
                     - remotePort
                     - serviceRef
@@ -81,7 +87,7 @@ spec:
                   type: object
               required:
                 - exitServer
-                - tcp
+                - tunnelMapping
                 - transport
               type: object
             status:
@@ -94,16 +100,19 @@ spec:
         - jsonPath: .spec.exitServer
           name: Exit Server
           type: string
-        - jsonPath: .spec.tcp.serviceRef.namespace
+        - jsonPath: .spec.tunnelMapping.serviceRef.namespace
           name: Service Namespace
           type: string
-        - jsonPath: .spec.tcp.serviceRef.name
+        - jsonPath: .spec.tunnelMapping.serviceRef.name
           name: Service
           type: string
-        - jsonPath: .spec.tcp.localPort
+        - jsonPath: .spec.tunnelMapping.protocol
+          name: Protocol
+          type: string
+        - jsonPath: .spec.tunnelMapping.localPort
           name: Local Port
           type: integer
-        - jsonPath: .spec.tcp.remotePort
+        - jsonPath: .spec.tunnelMapping.remotePort
           name: Remote Port
           type: integer
         - jsonPath: .spec.transport.useEncryption

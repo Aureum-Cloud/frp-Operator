@@ -41,26 +41,6 @@ spec:
             properties:
               exitServer:
                 type: string
-              tcp:
-                properties:
-                  localPort:
-                    type: integer
-                  remotePort:
-                    type: integer
-                  serviceRef:
-                    properties:
-                      name:
-                        type: string
-                      namespace:
-                        type: string
-                    required:
-                    - name
-                    type: object
-                required:
-                - localPort
-                - remotePort
-                - serviceRef
-                type: object
               transport:
                 properties:
                   bandwidthLimit:
@@ -79,10 +59,36 @@ spec:
                 - useCompression
                 - useEncryption
                 type: object
+              tunnelMapping:
+                properties:
+                  localPort:
+                    type: integer
+                  protocol:
+                    enum:
+                    - tcp
+                    - udp
+                    type: string
+                  remotePort:
+                    type: integer
+                  serviceRef:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                required:
+                - localPort
+                - protocol
+                - remotePort
+                - serviceRef
+                type: object
             required:
             - exitServer
-            - tcp
             - transport
+            - tunnelMapping
             type: object
           status:
             description: TunnelStatus defines the observed state of Tunnel

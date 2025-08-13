@@ -22,15 +22,17 @@ import (
 
 // TunnelSpec defines the desired state of Tunnel
 type TunnelSpec struct {
-	ExitServer string     `json:"exitServer"`
-	TCP        *TCP       `json:"tcp"`
-	Transport  *Transport `json:"transport"`
+	ExitServer    string         `json:"exitServer"`
+	TunnelMapping *TunnelMapping `json:"tunnelMapping"`
+	Transport     *Transport     `json:"transport"`
 }
 
-type TCP struct {
+type TunnelMapping struct {
 	ServiceRef ServiceRef `json:"serviceRef"`
-	LocalPort  int        `json:"localPort"`
-	RemotePort int        `json:"remotePort"`
+	// +kubebuilder:validation:Enum=tcp;udp
+	Protocol   string `json:"protocol"`
+	LocalPort  int    `json:"localPort"`
+	RemotePort int    `json:"remotePort"`
 }
 
 type ServiceRef struct {
