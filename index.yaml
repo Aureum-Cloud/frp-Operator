@@ -2,6 +2,29 @@ apiVersion: v1
 entries:
   frp-operator:
   - apiVersion: v2
+    appVersion: v1.0.1
+    created: "2026-05-04T17:53:31.149523754Z"
+    description: Helm chart for frp Operator
+    digest: 678ef1a3d82dd5bc24aa594730f55f59495c56af2514ae16c8857e9c5a4f8cd0
+    home: https://github.com/Aureum-Cloud/frp-Operator
+    icon: https://raw.githubusercontent.com/Aureum-Cloud/frp-Operator/refs/heads/main/logo.png
+    keywords:
+    - reverse-proxy
+    - tunnel
+    - operator
+    maintainers:
+    - name: Aureum Cloud
+      url: https://www.aureum.cloud
+    - email: cloud@n-bit.nl
+      name: N-Bit
+      url: https://www.n-bit.nl
+    - name: Niek Berenschot
+    name: frp-operator
+    type: application
+    urls:
+    - https://github.com/Aureum-Cloud/frp-Operator/releases/download/frp-operator-1.0.4/frp-operator-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
     appVersion: v1.0.0
     created: "2025-03-08T15:32:43.53751814Z"
     description: Helm chart for frp Operator
@@ -70,4 +93,4 @@ entries:
     urls:
     - https://github.com/Aureum-Cloud/frp-Operator/releases/download/frp-operator-1.0.1/frp-operator-1.0.1.tgz
     version: 1.0.1
-generated: "2025-03-08T15:32:43.537535492Z"
+generated: "2026-05-04T17:53:31.14954143Z"
