@@ -26,9 +26,9 @@ The **frp Kubernetes Operator** automates the deployment of FRP clients (connect
 | Parameter                                  | Description                          | Default                             |
 |--------------------------------------------|--------------------------------------|-------------------------------------|
 | `replicaCount`                             | Number of replicas to deploy.        | `1`                                 |
-| `image.repository`                         | Container image repository.          | `ghcr.io/aureum-cloud/frp-operator` |
+| `image.repository`                         | Container image repository.          | `ghcr.io/nfuchen/frp-operator`      |
 | `image.pullPolicy`                         | Image pull policy.                   | `Always`                            |
-| `image.tag`                                | Container image tag.                 | `""` (default tag)                  |
+| `image.tag`                                | Container image tag.                 | `latest`                            |
 | `imagePullSecrets`                         | List of image pull secrets.          | `[]`                                |
 | `nameOverride`                             | Override the chart name.             | `""`                                |
 | `fullnameOverride`                         | Override the full chart name.        | `""`                                |

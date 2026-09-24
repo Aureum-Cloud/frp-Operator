@@ -1,0 +1,18 @@
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  labels:
+    app.kubernetes.io/name: frp-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: tunnel-http-sample
+spec:
+  exitServer: exitserver-sample
+  http:
+    customDomains:
+      - app.example.com
+    plugin:
+      type: http2http
+      serviceRef:
+        name: app-service
+      localPort: 8080
+      hostHeaderRewrite: app.example.com

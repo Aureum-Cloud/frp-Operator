@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: frp
+spec:
+  controller: frp.aureum.cloud/ingress-controller
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example
+  namespace: default
+  annotations:
+    frp.aureum.cloud/exit-server: exit-server-sample
+spec:
+  ingressClassName: frp
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: example
+            port:
+              number: 8080

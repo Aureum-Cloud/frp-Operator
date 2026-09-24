@@ -1,9 +1,9 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/aureum-cloud/frp-operator
+  repository: ghcr.io/nfuchen/frp-operator
   pullPolicy: Always
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: ""

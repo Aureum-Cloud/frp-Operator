@@ -22,6 +22,7 @@ rules:
   - frp.aureum.cloud
   resources:
   - exitservers
+  - tunnels
   verbs:
   - create
   - delete
@@ -45,9 +46,10 @@ rules:
   - patch
   - update
 - apiGroups:
-  - frp.aureum.cloud
+  - networking.k8s.io
   resources:
-  - tunnels
+  - ingressclasses
+  - ingresses
   verbs:
   - get
   - list

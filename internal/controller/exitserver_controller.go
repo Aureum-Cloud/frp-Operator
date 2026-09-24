@@ -33,6 +33,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
+	"sigs.k8s.io/controller-runtime/pkg/handler"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 
 	frpv1 "frp-operator/api/v1"
@@ -79,7 +80,7 @@ func (r *ExitServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 	}
 
 	tunnels := &frpv1.TunnelList{}
-	err = r.Client.List(ctx, tunnels)
+	err = r.Client.List(ctx, tunnels, client.InNamespace(exitServer.Namespace))
 	if err != nil {
 		logger.Error(err, "Failed to fetch FRP Tunnel resource definitions")
 		return ctrl.Result{}, err
@@ -173,8 +174,23 @@ func (r *ExitServerReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 func (r *ExitServerReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&frpv1.ExitServer{}).
+		Watches(&frpv1.Tunnel{}, handler.EnqueueRequestsFromMapFunc(r.tunnelToExitServer)).
 		Named("exitserver").
 		Complete(r)
+}
+
+// tunnelToExitServer enqueues the ExitServer referenced by a Tunnel so that
+// Tunnel changes are reflected in the FRPC configuration without waiting for
+// the periodic requeue.
+func (r *ExitServerReconciler) tunnelToExitServer(_ context.Context, obj client.Object) []ctrl.Request {
+	tunnel, ok := obj.(*frpv1.Tunnel)
+	if !ok || tunnel.Spec.ExitServer == "" {
+		return nil
+	}
+	return []ctrl.Request{{NamespacedName: types.NamespacedName{
+		Name:      tunnel.Spec.ExitServer,
+		Namespace: tunnel.Namespace,
+	}}}
 }
 
 func (r *ExitServerReconciler) getTokenFromSecret(ctx context.Context, exitServer *frpv1.ExitServer) (string, error) {

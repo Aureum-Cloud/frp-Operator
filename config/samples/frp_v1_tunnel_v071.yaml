@@ -1,0 +1,116 @@
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: udp-sample
+spec:
+  exitServer: exit-server-sample
+  udp:
+    serviceRef:
+      name: dns
+      namespace: infra
+    localPort: 53
+    remotePort: 5353
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: https-plugin-sample
+spec:
+  exitServer: exit-server-sample
+  https:
+    customDomains:
+      - secure.example.com
+    plugin:
+      type: https2http
+      serviceRef:
+        name: web
+        namespace: apps
+      localPort: 8080
+      crtPath: /certs/tls.crt
+      keyPath: /certs/tls.key
+      hostHeaderRewrite: backend.example.com
+  transport:
+    useEncryption: true
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: tcpmux-sample
+spec:
+  exitServer: exit-server-sample
+  tcpmux:
+    multiplexer: httpconnect
+    customDomains:
+      - mux.example.com
+    serviceRef:
+      name: backend
+    localPort: 8080
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: stcp-sample
+spec:
+  exitServer: exit-server-sample
+  stcp:
+    secretKey: replace-me
+    allowUsers:
+      - user1
+    serviceRef:
+      name: ssh
+    localPort: 22
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: xtcp-sample
+spec:
+  exitServer: exit-server-sample
+  xtcp:
+    secretKey: replace-me
+    serviceRef:
+      name: ssh
+    localPort: 22
+    natTraversal:
+      disableAssistedAddrs: true
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: sudp-sample
+spec:
+  exitServer: exit-server-sample
+  sudp:
+    secretKey: replace-me
+    serviceRef:
+      name: dns
+    localPort: 53
+---
+apiVersion: frp.aureum.cloud/v1
+kind: Tunnel
+metadata:
+  name: common-options-sample
+spec:
+  exitServer: exit-server-sample
+  enabled: true
+  annotations:
+    owner: platform
+  metadatas:
+    environment: production
+  tcp:
+    serviceRef:
+      name: web
+    localPort: 8080
+    remotePort: 18080
+  loadBalancer:
+    group: web
+    groupKey: replace-me
+  healthCheck:
+    type: http
+    path: /healthz
+    intervalSeconds: 10
+    timeoutSeconds: 3
+    maxFailed: 3
+    httpHeaders:
+      - name: x-health-check
+        value: frp
